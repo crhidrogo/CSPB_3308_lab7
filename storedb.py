@@ -10,18 +10,28 @@ def create(dbname):
 
     cur.execute('''
     CREATE TABLE IF NOT EXISTS Store(
-        rowid INTEGER PRIMARY KEY AUTOINCREMENT,
-         idStore INTEGER NOT NULL
+        idStore INTEGER PRIMARY KEY,
+        SquareFeet INTEGER,
+        StoreType VARCHAR(45),
+        LocationType VARCHAR(1),
+        Address VARCHAR(45),
+        City VARCHAR(45),
+        StoreState VARCHAR(45),
+        ZipCode VARCHAR(10)
          );
     
     CREATE TABLE IF NOT EXISTS Product(
-        rowid INTEGER PRIMARY KEY AUTOINCREMENT,
-        idStore INTEGER NOT NULL
+        idProduct INTEGER NOT NULL,
+        Name VARCHAR(30),
+        Price DECIMAL,
+        CategoryID INTEGER,
+        Description VARCHAR(90)
         );
     
     CREATE TABLE IF NOT EXISTS Category(
-        rowid INTEGER PRIMARY KEY AUTOINCREMENT,
-        idStore INTEGER NOT NULL
+        idCategory INTEGER NOT NULL,
+        Name VARCHAR(45),
+        Description VARCHAR(90)
         );
     
     CREATE TABLE IF NOT EXISTS Store_Product(
@@ -31,6 +41,10 @@ def create(dbname):
         );
 
     ''')
+
+    conn.commit()
+    print(f"{dbname} now created.")
+    conn.close()
 
 
 
