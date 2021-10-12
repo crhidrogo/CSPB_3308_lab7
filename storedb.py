@@ -38,6 +38,14 @@ def create(dbname):
         ProductID INTEGER NOT NULL,
         StoreID INTEGER NOT NULL,
         quantity INTEGER
+
+        CONSTRAINT fk_product
+            FOREIGN KEY (ProductID)
+            REFERENCES Product(idProduct)
+
+        CONSTRAINT fk_store
+            FOREIGN KEY (StoreID)
+            REFERENCES Store(idStore)
         );
 
     ''')
