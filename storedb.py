@@ -6,7 +6,9 @@ import sqlite3
 
 def create(dbname):
     conn = sqlite3.connect(dbname)
-    cur = conn.cursor()    
+    cur = conn.cursor()
+
+    conn.execute("PRAGMA foreign_keys = 1") 
 
     cur.execute('''
     CREATE TABLE IF NOT EXISTS Store(
@@ -19,7 +21,9 @@ def create(dbname):
         StoreState VARCHAR(45),
         ZipCode VARCHAR(10)
          );
+    ''')
     
+    cur.execute('''
     CREATE TABLE IF NOT EXISTS Product(
         idProduct INTEGER NOT NULL,
         Name VARCHAR(30),
@@ -27,31 +31,28 @@ def create(dbname):
         CategoryID INTEGER,
         Description VARCHAR(90)
         );
+    ''')
     
+    cur.execute('''
     CREATE TABLE IF NOT EXISTS Category(
         idCategory INTEGER NOT NULL,
         Name VARCHAR(45),
         Description VARCHAR(90)
         );
-    
+    ''')
+
+    cur.execute('''
     CREATE TABLE IF NOT EXISTS Store_Product(
         ProductID INTEGER NOT NULL,
         StoreID INTEGER NOT NULL,
-        quantity INTEGER
-
-        CONSTRAINT fk_product
-            FOREIGN KEY (ProductID)
-            REFERENCES Product(idProduct)
-
-        CONSTRAINT fk_store
-            FOREIGN KEY (StoreID)
-            REFERENCES Store(idStore)
+        quantity INTEGER,
+        FOREIGN KEY(ProductID) REFERENCES Product(idProduct),
+        FOREIGN KEY(StoreID) REFERENCES Store(idStore)
         );
-
     ''')
 
     conn.commit()
-    print(f"{dbname} now created.")
+    #print(f"{dbname} now created.")
     conn.close()
 
 
@@ -63,3 +64,6 @@ def fill(dbname):
     conn = sqlite3.connect(dbname)
     ...
 '''
+
+if __name__ == '__main__':
+    create("store.sqlite")
